@@ -72,7 +72,7 @@ public class User {
 		System.out.println("Opcija 0:  Izlogujte se.");
 		System.out.println("Opcija 1:  Podignite novac.");
 		System.out.println("Opcija 2:  Provjerite stanje racuna.");
-		
+
 		Scanner userInput = new Scanner(System.in);
 		int userChoice = 0;
 		try {
@@ -106,7 +106,7 @@ public class User {
 			break;
 
 		}
-		case 2: {//provjera stanja racuna
+		case 2: {// provjera stanja racuna
 			currentUser.printInfo();
 			userMenu(currentUser);
 

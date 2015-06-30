@@ -30,8 +30,7 @@ public class Admin extends User {
 		System.out.println("[0] Log out");
 
 		Scanner adminInput = new Scanner(System.in);
-		int adminChoice = 0;// promjenljiva u kojoj se smjesta vrijednost koja
-							// oznacava izabranu opciju admina
+		int adminChoice = 0;// promjenljiva u kojoj se smjesta vrijednost koja oznacava izabranu opciju admina
 		/*
 		 * ukoliko admin unese bilo koju vrijednost koja nije cijeli broj
 		 * izbacuje poruku da je izvrsio pogresan unos i ponovo mu prikazuje
@@ -88,28 +87,25 @@ public class Admin extends User {
 	 * pravljenje novog korisnika i dodavanje u userList
 	 */
 	public static void makeNewUser() {
-		ArrayList<User> newUserList = (ArrayList<User>) UserBase.getUserList();// privremena
-																				// arrayLista
-																				// kojoj
-																				// smo
-																				// dodijelili
-																				// prethodnu
-																				// userList-u
+		//privremena arrayLista user-a kojoj smo dodijelili prethodnu userList-u
+		ArrayList<User> newUserList = (ArrayList<User>) UserBase.getUserList();
 		Scanner input = new Scanner(System.in);
 		System.out.println("Unesite username novog korisnika:");
-		String name = input.next();//username novog korisnika
-		boolean existingUser = checkForExistingUser(name);
+		String name = input.next();// username novog korisnika
+		boolean existingUser = checkForExistingUser(name);//provjera da li korisnik vec postoji
 		if (existingUser) {
 			System.out.println("Username vec postoji, unesite drugi username.");
 			makeNewUser();
 		} else {
 			System.out.println("Unesite password novog korisnika: ");
-			int pass=0;//password novog korisnika
-			try{ pass = input.nextInt();
-			}catch(Exception ex){
-				System.out.println(ex);
+			int pass = 0;// password novog korisnika
+			try {
+				pass = input.nextInt();
+			} catch (Exception ex) {
+				System.out.println("Password je cjelobrojna vrijednost!");
+				makeNewUser();
 			}
-			boolean validPassword = checkPassword(pass);//provjerava da li je password cetverocifren broj
+			boolean validPassword = checkPassword(pass);// provjerava da li je password cetverocifren broj
 			if (!validPassword) {
 				System.out
 						.println("Password mora biti cetverocifren broj, pokusajte ponovo.");
@@ -118,12 +114,8 @@ public class Admin extends User {
 				System.out.println("Unesite stanje racuna novog korisnika: ");
 				double balance = input.nextDouble();
 				User account = new User(name, pass, balance);
-				newUserList.add(account);// dodavanje novog korisnika u
-											// privremenu
-											// listu
-				UserBase.setUserList(newUserList);// setovanje prave userListe
-													// prosledjivanjem liste sa
-													// novim korisnikom
+				newUserList.add(account);// dodavanje novog korisnika u privremenu listu
+				UserBase.setUserList(newUserList);// setovanje prave userListe prosledjivanjem liste sa novim korisnikom
 				System.out
 						.println("\nUspjesno ste napravili novog korisnika: \nUsername: "
 								+ name
@@ -158,14 +150,14 @@ public class Admin extends User {
 	// admin dodaje nove novcanice u bankomat
 	static void setNumsOfPaperBills() {
 		Scanner adminInput = new Scanner(System.in);
-		int difference100 = ATM.billsLimit - ATM.getNumberOf100KMBills();
+		int difference100 = ATM.billsLimit - ATM.getNumberOf100KMBills();//razlika izmedju limita i trenutnog broja novcanica
 		int difference50 = ATM.billsLimit - ATM.getNumberOf50KMBills();
 		int difference20 = ATM.billsLimit - ATM.getNumberOf20KMBills();
 		int difference10 = ATM.billsLimit - ATM.getNumberOf10KMBills();
 		int num100 = 0;
-		int num50=0;
-		int num20=0;
-		int num10=0;
+		int num50 = 0;
+		int num20 = 0;
+		int num10 = 0;
 		boolean possible = false;
 		while (!possible) {
 			System.out
@@ -174,13 +166,11 @@ public class Admin extends User {
 			num100 = adminInput.nextInt();
 			if (num100 <= difference100) {
 				possible = true;
-				System.out.println("Unos je uredu!");
-			}
-			else{
+			} else {
 				System.out.println("Unijeli ste preveliki broj novcanica!");
 			}
 		}
-		possible=false;
+		possible = false;
 		while (!possible) {
 			System.out
 					.println("\nUnesite broj novcanica od 50 KM koje zelite dodati postojecim novcanicama:\n(mozete unijeti jos "
@@ -188,13 +178,11 @@ public class Admin extends User {
 			num50 = adminInput.nextInt();
 			if (num50 <= difference50) {
 				possible = true;
-				System.out.println("Unos je uredu!");
-			}
-			else{
+			} else {
 				System.out.println("Unijeli ste preveliki broj novcanica!");
 			}
 		}
-		possible=false;
+		possible = false;
 		while (!possible) {
 			System.out
 					.println("\nUnesite broj novcanica od 20 KM koje zelite dodati postojecim novcanicama:\n(mozete unijeti jos "
@@ -202,29 +190,23 @@ public class Admin extends User {
 			num20 = adminInput.nextInt();
 			if (num20 <= difference20) {
 				possible = true;
-				System.out.println("Unos je uredu!");
-			}
-			else{
+			} else {
 				System.out.println("Unijeli ste preveliki broj novcanica!");
 			}
 		}
-		possible=false;
+		possible = false;
 		while (!possible) {
 			System.out
-					.println("\nUnesite broj novcanica od 50 KM koje zelite dodati postojecim novcanicama:\n(mozete unijeti jos "
+					.println("\nUnesite broj novcanica od 10 KM koje zelite dodati postojecim novcanicama:\n(mozete unijeti jos "
 							+ difference10 + " novcanica)");
 			num10 = adminInput.nextInt();
 			if (num10 <= difference10) {
 				possible = true;
-				System.out.println("Unos je uredu!");
-			}
-			else{
+			} else {
 				System.out.println("Unijeli ste preveliki broj novcanica!");
 			}
 		}
-		
-		
-		
+
 		/*
 		 * setovanje broja novcanica na novu vrijednost koja predstavlja zbir
 		 * prethodnog broja novcanica i broja novcanica koje je unio admin
@@ -233,8 +215,8 @@ public class Admin extends User {
 		ATM.setNumberOf50KMBills(ATM.getNumberOf50KMBills() + num50);
 		ATM.setNumberOf20KMBills(ATM.getNumberOf20KMBills() + num20);
 		ATM.setNumberOf10KMBills(ATM.getNumberOf10KMBills() + num10);
-		System.out.println("Unos je uspjesno izvrsen.");
-		
+		System.out.println("\nUnos je uspjesno izvrsen.");
+
 	}
 
 	/*
@@ -254,11 +236,13 @@ public class Admin extends User {
 		}
 		return existingUser;
 	}
+
 	/*
-	 * provjerava da li je password cetverocifren cijeli broj, ako jeste vracu true, ako nije, vraca false
+	 * provjerava da li je password cetverocifren cijeli broj, ako jeste vracu
+	 * true, ako nije, vraca false
 	 */
 	public static boolean checkPassword(int userPassword) {
-		
+
 		boolean validPassword = false;
 		if (userPassword >= 1000 && userPassword <= 9999) {
 			validPassword = true;

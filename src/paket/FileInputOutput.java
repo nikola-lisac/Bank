@@ -18,15 +18,16 @@ public class FileInputOutput {
 			outputMoney = new BufferedReader(new FileReader("money.txt"));
 			String line = "";
 			/*
-			 * sve dok ne dodje do zadnje linije fajla, splituje liniju po zarazu
-			 * i pravi niz ciji su clanovi vrijednosti koje su bile odvojene
-			 * zarezom
+			 * sve dok ne dodje do zadnje linije fajla, splituje liniju po
+			 * zarazu i pravi niz ciji su clanovi vrijednosti koje su bile
+			 * odvojene zarezom
 			 */
 			while ((line = outputMoney.readLine()) != null) {
-			/* splituje liniju po zarazu i pravi niz ciji su clanovi
-			* vrijednosti koje su bile odvojene zarezom
-			* zatim setuje broj navcanica prosledjivanjem clanova niza
-			 */
+				/*
+				 * splituje liniju po zarazu i pravi niz ciji su clanovi
+				 * vrijednosti koje su bile odvojene zarezom zatim setuje broj
+				 * navcanica prosledjivanjem clanova niza
+				 */
 				String[] lineArray = line.split(",");
 				ATM.setNumberOf100KMBills(Integer.parseInt(lineArray[0]));
 				ATM.setNumberOf50KMBills(Integer.parseInt(lineArray[1]));
@@ -37,9 +38,9 @@ public class FileInputOutput {
 		} catch (Exception e) {
 			System.out.println(e);
 		} finally {
-			try{
-			outputMoney.close();
-			}catch (IOException e){
+			try {
+				outputMoney.close();
+			} catch (IOException e) {
 				System.out.println("Nema fajla!");
 				System.exit(0);
 			}
@@ -106,24 +107,18 @@ public class FileInputOutput {
 				String[] lineArray = line.split(",");// niz sacinjen vrijednosti
 														// iz linije
 														// fajla(username,password,balance)
-				User acc = new User(lineArray[0], Integer.parseInt(lineArray[1]),
-						Double.parseDouble(lineArray[2]));// kreiranje novog
-															// usera sa
-															// prosledjenim
-															// vrijednostima
-															// string niza
-				tempUserList.add(acc);// dodavanje novog usera u privremenu
-										// listu
+				User acc = new User(lineArray[0],
+						Integer.parseInt(lineArray[1]),
+						Double.parseDouble(lineArray[2]));// kreiranje novog usera sa prosledjenim vrijednostima string niza
+				tempUserList.add(acc);// dodavanje novog usera u privremenu listu
 			}
-			UserBase.setUserList(tempUserList);// setovanje prave liste usera
-												// prosledjivanjem privremene
-												// liste usera
+			UserBase.setUserList(tempUserList);// setovanje prave liste usera prosledjivanjem privremene liste usera
 		} catch (Exception e) {
 			System.out.println(e);
 		} finally {
-			try{
-			output.close();
-			}catch(IOException exc){
+			try {
+				output.close();
+			} catch (IOException exc) {
 				System.out.println("Nema fajla!");
 				System.exit(0);
 			}

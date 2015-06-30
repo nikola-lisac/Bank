@@ -9,7 +9,7 @@ public class ATM {
 	private static int numberOf20KMBills;// broj novcanica od 20 KM
 	private static int numberOf50KMBills;// broj novcanica od 50 KM
 	private static int numberOf100KMBills;// broj novcanica od 100 KM
-	public static final int billsLimit=100;
+	public static final int billsLimit = 100;
 
 	/*
 	 * Osnovni meni u kome korisnik upisuje svoj username i password kako bi se
@@ -22,10 +22,10 @@ public class ATM {
 		System.out.println("*******************************************");
 		System.out.println("Unesite korisnicko ime i lozinku: ");
 		String name = input.next();
-		int password=0;
-		try{
-		password = input.nextInt();
-		}catch(Exception err){
+		int password = 0;
+		try {
+			password = input.nextInt();
+		} catch (Exception err) {
 			System.out.println("Password je cetverocifren cijeli broj!");
 			loginMenu();
 		}
@@ -42,10 +42,11 @@ public class ATM {
 	 * ga na loginMenu.
 	 */
 	public static void validate(String name, int password) {
-		if ((name.equals(Admin.getAdminName()) && password==Admin
+		if ((name.equals(Admin.getAdminName()) && password == Admin
 				.getAdminPassword())) {
 
-			System.out.println("\nUspjesno ste se ulogovali kao administrator.");
+			System.out
+					.println("\nUspjesno ste se ulogovali kao administrator.");
 			System.out
 					.println("###########################################################");
 
@@ -109,21 +110,13 @@ public class ATM {
 
 	/** Proslijedjujemo korisnika i sumu koju zelimo isplatiti */
 	public static void withdraw(User user, int amount) {
-		// kreiramo objekat user i dodjeljujemo mu vrijednosti objekta cije smo
-		// korisnicko ime proslijedili u metodu
-		// ja sam korisnike smjestio u arraylist u klasi UserBase
 
-		// User user objekat "pokazuje" na isti objekat iz arraylista
-		// zato ce sve promjene koje su se desile u metodi biti izvršene na
-		// originalnom useru cije smo
-		// korisnicko ime proslijedili metodi
 		if (amount > getATMBalance()) {
 			System.out.println("U bankomatu nema dovoljno novca za isplatu.");
 		} else if (amount > user.getBalance()) {
 			System.out.println("Nemate toliko novaca na racunu.");
 		} else {
-			int count100 = 0, count50 = 0, count20 = 0, count10 = 0;// brojaci
-																	// novcanica
+			int count100 = 0, count50 = 0, count20 = 0, count10 = 0;// brojaci novcanica
 			int paidSum = 0;// isplacen iznos
 
 			while (amount >= 100 && count100 < getNumberOf100KMBills()) {
@@ -178,7 +171,9 @@ public class ATM {
 
 		}
 	}
-
+/*
+ * provjera stanja bankomata
+ */
 	public static void checkATM() {
 		System.out.println("U bankomatu ima: " + getATMBalance() + " KM");
 		System.out.println("Broj novcanica od 100 KM: "
@@ -191,5 +186,4 @@ public class ATM {
 				.println("Broj novcanica od 10 KM: " + getNumberOf10KMBills());
 	}
 
-	
 }
