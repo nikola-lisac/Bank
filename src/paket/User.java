@@ -6,7 +6,7 @@ import java.util.Scanner;
 
 public class User {
 	private String userName;
-	private int password;
+	private String password;
 	private double balance;
 	private Date dateCreated;
 
@@ -14,7 +14,7 @@ public class User {
 
 	}
 
-	User(String userName, int password, double balance) {
+	User(String userName, String password, double balance) {
 		this.userName = userName;
 		this.password = password;
 		this.balance = balance;
@@ -29,11 +29,11 @@ public class User {
 		this.userName = userName;
 	}
 
-	int getPassword() {
+	String getPassword() {
 		return password;
 	}
 
-	void setPassword(int password) {
+	void setPassword(String password) {
 		this.password = password;
 	}
 

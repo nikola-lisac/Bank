@@ -16,14 +16,14 @@ public class UserBase {
 	/*
 	 * metoda vraca objekat User na osnovu unijetog username
 	 */
-	public static User getUser(String username, int password) {
+	public static User getUser(String username, String password) {
 		User user = null;
 		boolean status = false;
 		// petlja prolazi sve user-e u user listi
 		for (int i = 0; i < userList.size(); i++) {
 			user = (User) userList.get(i);
 			if ((username.equals(user.getUserName()))
-					&& (password == user.getPassword())) {
+					&& (password.equals(user.getPassword()))) {
 				status = true;
 				break;
 			}

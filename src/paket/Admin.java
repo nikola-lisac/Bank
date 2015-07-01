@@ -3,15 +3,17 @@ package paket;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+import com.sun.javafx.fxml.ParseTraceElement;
+
 public class Admin extends User {
 	private static final String adminName = "nikola";
-	private static final int adminPassword = 1234;
+	private static final String adminPassword = "1234";
 
 	static String getAdminName() {
 		return adminName;
 	}
 
-	static int getAdminPassword() {
+	static String getAdminPassword() {
 		return adminPassword;
 	}
 
@@ -30,7 +32,8 @@ public class Admin extends User {
 		System.out.println("[0] Log out");
 
 		Scanner adminInput = new Scanner(System.in);
-		int adminChoice = 0;// promjenljiva u kojoj se smjesta vrijednost koja oznacava izabranu opciju admina
+		int adminChoice = 0;// promjenljiva u kojoj se smjesta vrijednost koja
+							// oznacava izabranu opciju admina
 		/*
 		 * ukoliko admin unese bilo koju vrijednost koja nije cijeli broj
 		 * izbacuje poruku da je izvrsio pogresan unos i ponovo mu prikazuje
@@ -87,25 +90,26 @@ public class Admin extends User {
 	 * pravljenje novog korisnika i dodavanje u userList
 	 */
 	public static void makeNewUser() {
-		//privremena arrayLista user-a kojoj smo dodijelili prethodnu userList-u
+		// privremena arrayLista user-a kojoj smo dodijelili prethodnu
+		// userList-u
 		ArrayList<User> newUserList = (ArrayList<User>) UserBase.getUserList();
 		Scanner input = new Scanner(System.in);
 		System.out.println("Unesite username novog korisnika:");
 		String name = input.next();// username novog korisnika
-		boolean existingUser = checkForExistingUser(name);//provjera da li korisnik vec postoji
+		boolean existingUser = checkForExistingUser(name);// provjera da li
+															// korisnik vec
+															// postoji
 		if (existingUser) {
 			System.out.println("Username vec postoji, unesite drugi username.");
 			makeNewUser();
 		} else {
 			System.out.println("Unesite password novog korisnika: ");
-			int pass = 0;// password novog korisnika
-			try {
-				pass = input.nextInt();
-			} catch (Exception ex) {
-				System.out.println("Password je cjelobrojna vrijednost!");
-				makeNewUser();
-			}
-			boolean validPassword = checkPassword(pass);// provjerava da li je password cetverocifren broj
+
+			String pass = input.next();
+
+			boolean validPassword = checkPassword(pass);// provjerava da li je
+														// password
+														// cetverocifren broj
 			if (!validPassword) {
 				System.out
 						.println("Password mora biti cetverocifren broj, pokusajte ponovo.");
@@ -114,8 +118,11 @@ public class Admin extends User {
 				System.out.println("Unesite stanje racuna novog korisnika: ");
 				double balance = input.nextDouble();
 				User account = new User(name, pass, balance);
-				newUserList.add(account);// dodavanje novog korisnika u privremenu listu
-				UserBase.setUserList(newUserList);// setovanje prave userListe prosledjivanjem liste sa novim korisnikom
+				newUserList.add(account);// dodavanje novog korisnika u
+											// privremenu listu
+				UserBase.setUserList(newUserList);// setovanje prave userListe
+													// prosledjivanjem liste sa
+													// novim korisnikom
 				System.out
 						.println("\nUspjesno ste napravili novog korisnika: \nUsername: "
 								+ name
@@ -150,7 +157,8 @@ public class Admin extends User {
 	// admin dodaje nove novcanice u bankomat
 	static void setNumsOfPaperBills() {
 		Scanner adminInput = new Scanner(System.in);
-		int difference100 = ATM.billsLimit - ATM.getNumberOf100KMBills();//razlika izmedju limita i trenutnog broja novcanica
+		// razlika izmedju limita i trenutnog broja novcanica
+		int difference100 = ATM.billsLimit - ATM.getNumberOf100KMBills();
 		int difference50 = ATM.billsLimit - ATM.getNumberOf50KMBills();
 		int difference20 = ATM.billsLimit - ATM.getNumberOf20KMBills();
 		int difference10 = ATM.billsLimit - ATM.getNumberOf10KMBills();
@@ -241,10 +249,20 @@ public class Admin extends User {
 	 * provjerava da li je password cetverocifren cijeli broj, ako jeste vracu
 	 * true, ako nije, vraca false
 	 */
-	public static boolean checkPassword(int userPassword) {
-
-		boolean validPassword = false;
-		if (userPassword >= 1000 && userPassword <= 9999) {
+	public static boolean checkPassword(String password) {
+		boolean validPassword = true;
+		char[] numArray = { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9' };
+		int countTrue = 0;
+		if (password.length() == 4) {
+			for (int i = 0; i < password.length(); i++) {
+				for (int j = 0; j < numArray.length; j++) {
+					if (password.charAt(i) == numArray[j]) {
+						countTrue++;
+					}
+				}
+			}
+		}
+		if (countTrue == 4) {
 			validPassword = true;
 		} else {
 			validPassword = false;

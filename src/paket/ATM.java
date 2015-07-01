@@ -22,13 +22,8 @@ public class ATM {
 		System.out.println("*******************************************");
 		System.out.println("Unesite korisnicko ime i lozinku: ");
 		String name = input.next();
-		int password = 0;
-		try {
-			password = input.nextInt();
-		} catch (Exception err) {
-			System.out.println("Password je cetverocifren cijeli broj!");
-			loginMenu();
-		}
+		String password = input.next();
+		
 		validate(name, password);
 	}
 
@@ -41,9 +36,9 @@ public class ATM {
 	 * obavjestava korisnika da je unio pogresan username ili password i vraca
 	 * ga na loginMenu.
 	 */
-	public static void validate(String name, int password) {
-		if ((name.equals(Admin.getAdminName()) && password == Admin
-				.getAdminPassword())) {
+	public static void validate(String name, String password) {
+		if ((name.equals(Admin.getAdminName()) && password.equals(Admin
+				.getAdminPassword()))) {
 
 			System.out
 					.println("\nUspjesno ste se ulogovali kao administrator.");

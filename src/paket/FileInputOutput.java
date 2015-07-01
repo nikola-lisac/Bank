@@ -107,8 +107,7 @@ public class FileInputOutput {
 				String[] lineArray = line.split(",");// niz sacinjen vrijednosti
 														// iz linije
 														// fajla(username,password,balance)
-				User acc = new User(lineArray[0],
-						Integer.parseInt(lineArray[1]),
+				User acc = new User(lineArray[0],lineArray[1],
 						Double.parseDouble(lineArray[2]));// kreiranje novog usera sa prosledjenim vrijednostima string niza
 				tempUserList.add(acc);// dodavanje novog usera u privremenu listu
 			}
