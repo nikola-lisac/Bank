@@ -29,6 +29,7 @@ public class Admin extends User {
 		System.out.println("[2] Brisanje postojeceg korisnika");
 		System.out.println("[3] Provjera stanja bankomata");
 		System.out.println("[4] Unos novcanica");
+		System.out.println("[5] Gasenje bankomata");
 		System.out.println("[0] Log out");
 
 		Scanner adminInput = new Scanner(System.in);
@@ -79,6 +80,10 @@ public class Admin extends User {
 			adminMenu();
 			break;
 		}
+		case 5:{//gasenje bankomata
+			System.out.println("Bankomat ce se ugasiti.");
+			System.exit(0);
+		}
 		default: {
 			System.out.println("\nPogresan unos, pokusajte ponovo.");
 			adminMenu();
@@ -96,42 +101,59 @@ public class Admin extends User {
 		Scanner input = new Scanner(System.in);
 		System.out.println("Unesite username novog korisnika:");
 		String name = input.next();// username novog korisnika
-		boolean existingUser = checkForExistingUser(name);// provjera da li
-															// korisnik vec
-															// postoji
-		if (existingUser) {
-			System.out.println("Username vec postoji, unesite drugi username.");
-			makeNewUser();
-		} else {
-			System.out.println("Unesite password novog korisnika: ");
 
-			String pass = input.next();
-
-			boolean validPassword = checkPassword(pass);// provjerava da li je
-														// password
-														// cetverocifren broj
-			if (!validPassword) {
-				System.out
-						.println("Password mora biti cetverocifren broj, pokusajte ponovo.");
-				makeNewUser();
-			} else {
-				System.out.println("Unesite stanje racuna novog korisnika: ");
-				double balance = input.nextDouble();
-				User account = new User(name, pass, balance);
-				newUserList.add(account);// dodavanje novog korisnika u
-											// privremenu listu
-				UserBase.setUserList(newUserList);// setovanje prave userListe
-													// prosledjivanjem liste sa
-													// novim korisnikom
-				System.out
-						.println("\nUspjesno ste napravili novog korisnika: \nUsername: "
-								+ name
-								+ "\nPassword: "
-								+ pass
-								+ "\nBalance: "
-								+ balance);
-			}
+		// boolean existingUser = checkForExistingUser(name);
+		// provjera da li korisnik vec postoji i vrti petlju sve dok ne unese
+		// username koji ne postoji u user listi
+		while (checkForExistingUser(name)) {
+			System.out
+					.println("Username vec postoji, unesite drugi username: ");
+			name = input.next();
 		}
+		System.out.println("Unesite password novog korisnika: ");
+		String pass = input.next();
+		// provjerava da li je password cetverocifren broj i vrti petlju dok ne
+		// unese odgovarajuci pass
+		while (!checkPassword(pass)) {
+			System.out
+					.println("Password mora biti cetverocifren broj, pokusajte ponovo: ");
+			pass = input.next();
+		}
+		double balance = 0;// stanje racuna
+		boolean isOK = false;// kontrola petlje
+		while (!isOK) {
+			/*
+			 * ako admin ne unese double vrijednost trazi da ponovo unese
+			 * vrijednost sve dok ne unese kako treba
+			 */
+		
+		try {
+
+			System.out.println("Unesite stanje racuna novog korisnika: ");
+			balance = input.nextDouble();
+			isOK = true;
+
+		} catch (Exception a) {
+			System.out.println("Pogresan unos!");
+			isOK = false;
+			input.nextLine();
+		}
+		}
+		//pravi usera prosljedjivanjem name,pass i balance u kontruktor
+		User account = new User(name, pass, balance);
+		newUserList.add(account);// dodavanje novog korisnika u
+									// privremenu listu
+		UserBase.setUserList(newUserList);// setovanje prave userListe
+											// prosledjivanjem liste sa
+											// novim korisnikom
+		System.out
+				.println("\nUspjesno ste napravili novog korisnika: \nUsername: "
+						+ name
+						+ "\nPassword: "
+						+ pass
+						+ "\nBalance: "
+						+ balance);
+
 	}
 
 	// brisanje korisnika
@@ -141,16 +163,26 @@ public class Admin extends User {
 		Scanner inputAgain = new Scanner(System.in);
 		System.out.println("Unesite username korisnika: ");
 		String delUsername = inputAgain.next();
-		User user = UserBase.getUser(delUsername);
-		if (user == null) {
-			System.out.println("Ne postoji korisnik sa tim username-om.");
-			deleteUser();
+		System.out
+				.println("Potvrdite username korisnika kojeg zelite obrisati: ");
+		String confirmUsername = inputAgain.next();
+		if (delUsername.equals(confirmUsername)) {
+			User user = UserBase.getUser(delUsername);
+			if (user == null) {
+				System.out.println("Ne postoji korisnik sa tim username-om.");
+				deleteUser();
+			} else {
+				delUser.remove(user);// brisanje Usera iz privremene liste
+				UserBase.setUserList(delUser);// postavljanje liste korisnika
+												// prosledjivanjem privremene
+												// liste
+				System.out.println("Uspjesno ste obrisali korisnika:   "
+						+ delUsername);
+			}
 		} else {
-			delUser.remove(user);// brisanje Usera iz privremene liste
-			UserBase.setUserList(delUser);// postavljanje liste korisnika
-											// prosledjivanjem privremene liste
-			System.out.println("Uspjesno ste obrisali korisnika:   "
-					+ delUsername);
+			System.out
+					.println("Niste unijeli isti username, pokusajte ponovo!");
+			deleteUser();
 		}
 	}
 

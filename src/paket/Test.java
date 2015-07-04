@@ -1,7 +1,7 @@
 package paket;
 /*
  * Written by Nikola Lisicic
- * Credits: Senjin Hajrulahovic
+ * Credits: Senjin Hajrulahovic, Goran Arsenic
  */
 public class Test {
 
